@@ -1,7 +1,20 @@
 import React, { use, useState } from 'react'
 import StarRatings from 'react-star-ratings';
-
-const ProductCard = ({ data , addCart }) => {
+interface ProductCardProps {
+    data: {
+      // Define the type for the 'data' object
+      images: string[];
+      title: string;
+      description: string;
+      price: number;
+      discountPercentage: number;
+      rating: number;
+      // Add other properties as needed
+    };
+    addCart: (data: any) => void; // Update the type for 'addCart' as needed
+  }
+  
+  const ProductCard: React.FC<ProductCardProps> = ({ data, addCart }) => {
     const [Data,setData] = useState(data);
     return (
         <div className='bg-neutral-100 mb-3 flex justify-between items-center h-52 drop-shadow-md p-4 px-7 rounded-xl'>
