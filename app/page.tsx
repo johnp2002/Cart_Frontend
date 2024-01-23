@@ -59,6 +59,7 @@ const HomePage = () => {
           {/* Render protected content here */}
         </div>
       )}
+
     </div>
   );
 };

@@ -19,3 +19,45 @@
 body {
   color: rgb(var(--foreground-rgb));
 }
+
+/* Add these styles to your CSS file */
+
+/* Landing page background */
+.landing-bg {
+  height: 100vh;
+  background-size: cover;
+  background-position: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  background-image: url('');
+}
+
+/* Brand logos section */
+.brand-logos {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  margin-top: 50px; /* Adjust as needed */
+}
+
+/* Logo animation */
+.logo {
+  width: 100px; /* Adjust the size as needed */
+  height: auto;
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.8s, transform 0.8s;
+}
+
+/* Add more specific styles for each logo if necessary */
+.logo:nth-child(2) {
+  /* Add styles for the second logo */
+}
+
+/* Animation triggered by scrolling */
+.logo.animate {
+  opacity: 1;
+  transform: translateY(0);
+}
