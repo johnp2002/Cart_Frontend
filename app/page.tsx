@@ -10,8 +10,8 @@ const HomePage = () => {
   const [userId, setuserId] = useState('');
   const router = useRouter();
   
-  const handleLogin = (newToken, userId) => {
-    if (newToken.toString() === 'undefined') {
+  const handleLogin = (newToken: string, userId: string) => {
+    if (newToken === 'undefined') {
       return;
     }
   
@@ -19,7 +19,7 @@ const HomePage = () => {
     Cookies.set('id', userId, { path: '/home' });
     setToken(newToken);
     setuserId(userId);
-    
+  
     setTimeout(() => {
       router.push('/home');
     }, 1000);
