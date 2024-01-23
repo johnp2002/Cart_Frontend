@@ -84,7 +84,8 @@ const HomePage = () => {
   const handleSearch = (event: React.ChangeEvent<HTMLInputElement>) => {
 
     setSearchQuery(event.target.value);
-    applyFilters(Number(event.target.value), minPrice, maxPrice);
+    applyFilters(event.target.value.toString(), minPrice, maxPrice);
+
   };
 
   const handleFilter = () => {
