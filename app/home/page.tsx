@@ -11,12 +11,18 @@ interface ProductData {
   // Add other properties as needed
 }
 const HomePage = () => {
-  const [originalProducts, setOriginalProducts] = useState([]);
+  const [originalProducts, setOriginalProducts] = useState<ProductData[]>([]);
+
   const [displayedProducts, setDisplayedProducts] = useState([]);
   const [searchQuery, setSearchQuery] = useState('');
   const [minPrice, setMinPrice] = useState('');
   const [maxPrice, setMaxPrice] = useState('');
-  const [cart,setCart] = useState({});  
+  const [cart, setCart] = useState<{ products: ProductData[]; totalQuantity: number; total: number }>({
+    products: [],
+    totalQuantity: 0,
+    total: 0,
+  });
+  
   const [isCartModalOpen, setIsCartModalOpen] = useState(false);
   const router = useRouter();
   
@@ -78,11 +84,12 @@ const HomePage = () => {
   const handleSearch = (event: React.ChangeEvent<HTMLInputElement>) => {
 
     setSearchQuery(event.target.value);
-    applyFilters(event.target.value, minPrice, maxPrice);
+    applyFilters(Number(event.target.value), minPrice, maxPrice);
   };
 
   const handleFilter = () => {
-    applyFilters(searchQuery, minPrice, maxPrice);
+    applyFilters(searchQuery, Number(minPrice), Number(maxPrice));
+
   };
 
   const handleClearFilter = () => {
@@ -96,8 +103,9 @@ const HomePage = () => {
     const filteredProducts = originalProducts.filter((product) => {
       const nameMatches = product.title && product.title.toLowerCase().includes(search.toLowerCase());
       const priceInRange =
-        (min === '' || parseFloat(product.price) >= parseFloat(min)) &&
-        (max === '' || parseFloat(product.price) <= parseFloat(max));
+      (min === '' || parseFloat(product.price) >= parseFloat(min.toString())) &&
+      (max === '' || parseFloat(product.price) <= parseFloat(max.toString()));
+    
 
       return nameMatches && priceInRange;
     });
@@ -182,7 +190,7 @@ const HomePage = () => {
           >
             Clear Filter
           </button>
-        </div>
+        </div>P
         <div>
             <button className='bg-yellow-400 p-2 rounded-md' onClick={()=>{openCartModal(); console.log(cart)}}>
 
@@ -199,7 +207,7 @@ const HomePage = () => {
               {cart.products.length > 0 ? (
                 <div className='max-h-96 overflow-y-scroll'>
 
-               { cart.products.map((product) => (
+               { cart.products.map((product: ProductData) => (
                   <div key={product.id} className='bg-slate-300 mb-2 p-2 rounded-md'>
                     <p>{product.title}</p>
                     <p>Price: Rs.{product.price}</p>
