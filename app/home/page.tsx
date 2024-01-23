@@ -4,7 +4,12 @@ import ProductCard from '@/app/components/ProductCard';
 import Cookies from 'js-cookie';
 import { useRouter} from 'next/navigation'
 import { toast } from 'react-toastify';
-
+interface ProductData {
+  id: string;
+  title: string;
+  price: number;
+  // Add other properties as needed
+}
 const HomePage = () => {
   const [originalProducts, setOriginalProducts] = useState([]);
   const [displayedProducts, setDisplayedProducts] = useState([]);
@@ -70,7 +75,8 @@ const HomePage = () => {
     fetchCart();
   }, []);
 
-  const handleSearch = (event) => {
+  const handleSearch = (event: React.ChangeEvent<HTMLInputElement>) => {
+
     setSearchQuery(event.target.value);
     applyFilters(event.target.value, minPrice, maxPrice);
   };
@@ -86,7 +92,7 @@ const HomePage = () => {
     setDisplayedProducts(originalProducts);
   };
 
-  const applyFilters = (search, min, max) => {
+  const applyFilters = (search:String, min:Number, max:Number) => {
     const filteredProducts = originalProducts.filter((product) => {
       const nameMatches = product.title && product.title.toLowerCase().includes(search.toLowerCase());
       const priceInRange =
@@ -109,7 +115,7 @@ const HomePage = () => {
     },1000);
     toast.info('Successfully LogOut')
   };
-  const addtoCart = (data)=>{
+  const addtoCart = (data:ProductData)=>{
     console.log(data)
     setCart({
         ...cart,products:[
