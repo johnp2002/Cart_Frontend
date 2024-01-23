@@ -1,10 +1,14 @@
 // components/Login.js
 import { useState, useEffect } from 'react';
 import {toast} from 'react-toastify';
-const Login = ({ onLogin }: any) => {
-  const [username, setUsername] = useState();
-  const [password, setPassword] = useState();
-  const [email, setEmail] = useState();
+interface LoginProps {
+  onLogin: (token: string, userId: string) => void;
+}
+
+const Login: React.FC<LoginProps> = ({ onLogin }) => {
+  const [username, setUsername] = useState<string>('');
+  const [password, setPassword] = useState<string>('');
+  const [email, setEmail] = useState<string>('');
   const [tog, setTog] = useState(false);
 
   const handleLogin = async () => {
