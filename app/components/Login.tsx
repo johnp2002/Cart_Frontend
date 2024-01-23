@@ -2,22 +2,23 @@
 import { useState, useEffect } from 'react';
 import {toast} from 'react-toastify';
 const Login = ({ onLogin }: any) => {
-  const [username, setUsername] = useState('kminchelle');
-  const [password, setPassword] = useState('0lelplR');
-  const [email, setEmail] = useState('onlne@123.com');
+  const [username, setUsername] = useState();
+  const [password, setPassword] = useState();
+  const [email, setEmail] = useState();
   const [tog, setTog] = useState(false);
 
   const handleLogin = async () => {
     try {
-      const response = await fetch('https://dummyjson.com/auth/login', {
+      const response = await fetch('http://localhost:4000/signin', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ username, password }),
+        body: JSON.stringify({ email, password }),
       });
+  
       const data = await response.json();
-
+      (data.status !== 'success')?toast.error(data.msg + ''):toast.success(data.msg);
       localStorage.setItem('token', data.token);
-      onLogin(data.token, data.id);
+      onLogin(data.token, data.userId); // Assuming your server returns 'userId' instead of 'id'
     } catch (error) {
       console.error('Login error:', error);
     }
@@ -33,8 +34,10 @@ const Login = ({ onLogin }: any) => {
       });
       const data = await response.json();
 
-      console.log(data)
-      toast.success(data.msg)
+      console.log(data);
+      
+      (data.status == 'success')?toast.success(data.msg):toast.error(data.msg);
+
     } catch (error) {
       console.error('Login error:', error);
     }
@@ -45,9 +48,9 @@ const Login = ({ onLogin }: any) => {
     <div className='w-full h-full flex flex-wrap items-center justify-center' style={{ background: 'url(/bg.png)', backgroundPosition: 'center', backgroundSize: 'cover' }}>
 
 
-      <div className=" w-2/4 flex  flex-wrap justify-center items-center h-screen bg-gray-800 bg-opacity-0  ">
+      <div className=" w-2/4 flex content-center flex-wrap justify-center items-center h-screen bg-gray-800 bg-opacity-0  ">
         <div className=''>
-          <h1 className='text-4xl text-gray-800 text-center'>Welcome to <span className='font-extrabold'>J-Commerce</span></h1>
+          <h1 className='text-4xl tracking-tighter text-white text-center'>Welcome to <span className='font-extrabold'>J-Commerce</span></h1>
         </div>
         <div className='w-full  '>
 
@@ -58,9 +61,9 @@ const Login = ({ onLogin }: any) => {
                 <input
                   className="border bg-transparent text-white  p-2 mb-4 w-full rounded-md"
                   type="text"
-                  placeholder="Username"
-                  value={username}
-                  onChange={(e) => setUsername(e.target.value)}
+                  placeholder="email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
                 />
                 <input
                   className="border bg-transparent text-white  p-2 mb-4 w-full rounded-md"
@@ -98,14 +101,14 @@ const Login = ({ onLogin }: any) => {
                   className="border bg-transparent text-white  p-2 mb-4 w-full rounded-md"
                   type="text"
                   placeholder="email"
-                  value={email}
+                  value={'enter Your Email'}
                   onChange={(e) => setEmail(e.target.value)}
                 />
                 <input
                   className="border bg-transparent text-white  p-2 mb-4 w-full rounded-md"
                   type="password"
                   placeholder="Password"
-                  value={password}
+                  value={''}
                   onChange={(e) => setPassword(e.target.value)}
                 />
                 <div className=''>

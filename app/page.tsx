@@ -9,20 +9,19 @@ const HomePage = () => {
   const [token, setToken] = useState('');
   const [userId, setuserId] = useState('');
   const router = useRouter();
-
-  const handleLogin = (newToken,id) => {
-    
-    if(newToken.toString() == 'undefined'){
+  
+  const handleLogin = (newToken, userId) => {
+    if (newToken.toString() === 'undefined') {
       return;
     }
-    Cookies.set('token', newToken, { path: '/' });
+  
     Cookies.set('token', newToken, { path: '/home' });
-    Cookies.set('id', id, { path: '/' });
-    Cookies.set('id', id, { path: '/home' });
+    Cookies.set('id', userId, { path: '/home' });
     setToken(newToken);
-    setuserId(id);
+    setuserId(userId);
+    
     setTimeout(() => {
-      router.push('/home')
+      router.push('/home');
     }, 1000);
   };
 

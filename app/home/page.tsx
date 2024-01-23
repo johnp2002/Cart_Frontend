@@ -3,7 +3,7 @@ import { useState, useEffect } from 'react';
 import ProductCard from '@/app/components/ProductCard';
 import Cookies from 'js-cookie';
 import { useRouter} from 'next/navigation'
-
+import { toast } from 'react-toastify';
 
 const HomePage = () => {
   const [originalProducts, setOriginalProducts] = useState([]);
@@ -14,25 +14,51 @@ const HomePage = () => {
   const [cart,setCart] = useState({});  
   const [isCartModalOpen, setIsCartModalOpen] = useState(false);
   const router = useRouter();
+  
   const fetchProducts = async () => {
     try {
-      const response = await fetch('https://dummyjson.com/products');
+      const token = Cookies.get('token'); // Assuming you're using the `js-cookie` library
+      const response = await fetch('http://localhost:4000/products', {
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`,
+        },
+      });
+      console.log(response)
+      if (response.status === 401) {
+        console.error('Unauthorized: No token provided');
+        // Handle unauthorized access (e.g., redirect to login page)
+        return;
+      }
+      
       const data = await response.json();
-      setOriginalProducts(data.products);
-      setDisplayedProducts(data.products);
-      console.log(data);
+      if(!data){
+
+        setOriginalProducts([]);
+        setDisplayedProducts([]);
+      }else{
+        setOriginalProducts(data);
+        setDisplayedProducts(data);
+      }
+      console.log(data && data || []);
     } catch (error) {
       console.error('Error fetching products:', error);
     }
   };
-
+  
   const fetchCart = async () => {
     try {
-      const id = Cookies.get('id');
-      const response = await fetch(`https://dummyjson.com/carts/${id}`);
+      const token = Cookies.get('token'); // Assuming you're using the `js-cookie` library
+      const response = await fetch('http://localhost:4000/cart', {
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`,
+        },
+      });
+      
       const data = await response.json();
       console.log(data);
-      setCart(data)
+      setCart(data.carts[0])
     } catch (error) {
       console.error('Error fetching products:', error);
     }
@@ -81,7 +107,7 @@ const HomePage = () => {
     setTimeout(()=>{
         router.back();
     },1000);
-
+    toast.info('Successfully LogOut')
   };
   const addtoCart = (data)=>{
     console.log(data)
