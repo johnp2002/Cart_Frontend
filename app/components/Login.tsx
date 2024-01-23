@@ -9,7 +9,7 @@ const Login = ({ onLogin }: any) => {
 
   const handleLogin = async () => {
     try {
-      const response = await fetch('http://localhost:4000/signin', {
+      const response = await fetch('https://jcart-mh9u.onrender.com/signin', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email, password }),
@@ -27,7 +27,7 @@ const Login = ({ onLogin }: any) => {
   const handleSignup = async () => {
     console.log('function called')
     try {
-      const response = await fetch('http://localhost:4000/signup', {
+      const response = await fetch('https://jcart-mh9u.onrender.com/signup', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ username, email, password }),

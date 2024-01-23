@@ -18,7 +18,7 @@ const HomePage = () => {
   const fetchProducts = async () => {
     try {
       const token = Cookies.get('token'); // Assuming you're using the `js-cookie` library
-      const response = await fetch('http://localhost:4000/products', {
+      const response = await fetch('https://jcart-mh9u.onrender.com/products', {
         headers: {
           'Content-Type': 'application/json',
           'Authorization': `Bearer ${token}`,
@@ -49,7 +49,7 @@ const HomePage = () => {
   const fetchCart = async () => {
     try {
       const token = Cookies.get('token'); // Assuming you're using the `js-cookie` library
-      const response = await fetch('http://localhost:4000/cart', {
+      const response = await fetch('https://jcart-mh9u.onrender.com/cart', {
         headers: {
           'Content-Type': 'application/json',
           'Authorization': `Bearer ${token}`,
