@@ -8,15 +8,21 @@ interface ProductData {
   id: string;
   title: string;
   price: number;
-  // Add other properties as needed
+  images: string[];
+  description: string;
+  discountPercentage: number;
+  rating: number;
 }
+
 const HomePage = () => {
   const [originalProducts, setOriginalProducts] = useState<ProductData[]>([]);
 
-  const [displayedProducts, setDisplayedProducts] = useState([]);
+const [displayedProducts, setDisplayedProducts] = useState<ProductData[]>([]);
+
   const [searchQuery, setSearchQuery] = useState('');
-  const [minPrice, setMinPrice] = useState('');
-  const [maxPrice, setMaxPrice] = useState('');
+  const [minPrice, setMinPrice] = useState<number | ''>('');
+const [maxPrice, setMaxPrice] = useState<number | ''>('');
+
   const [cart, setCart] = useState<{ products: ProductData[]; totalQuantity: number; total: number }>({
     products: [],
     totalQuantity: 0,
@@ -100,19 +106,19 @@ const HomePage = () => {
     setDisplayedProducts(originalProducts);
   };
 
-  const applyFilters = (search:String, min:Number, max:Number) => {
+  const applyFilters = (search: string, min: number | '', max: number | '') => {
     const filteredProducts = originalProducts.filter((product) => {
       const nameMatches = product.title && product.title.toLowerCase().includes(search.toLowerCase());
       const priceInRange =
-      (min === '' || parseFloat(product.price) >= parseFloat(min.toString())) &&
-      (max === '' || parseFloat(product.price) <= parseFloat(max.toString()));
-    
-
+        (min === '' || parseFloat(product.price.toString()) >= parseFloat(min.toString())) &&
+        (max === '' || parseFloat(product.price.toString()) <= parseFloat(max.toString()));
+  
       return nameMatches && priceInRange;
     });
-
+  
     setDisplayedProducts(filteredProducts);
   };
+  
   const handleLogout = () => {
     
     Cookies.remove('token', { path: '/' });
@@ -173,14 +179,14 @@ const HomePage = () => {
             type='number'
             placeholder='Min Price'
             value={minPrice}
-            onChange={(e) => setMinPrice(e.target.value)}
+            onChange={(e) => setMinPrice(Number(e.target.value))}
           />
           <input
             className='border p-2 rounded'
             type='number'
             placeholder='Max Price'
             value={maxPrice}
-            onChange={(e) => setMaxPrice(e.target.value)}
+            onChange={(e) => setMaxPrice(Number(e.target.value))}
           />
           <button className='bg-white text-blue-500 px-4 py-2 rounded' onClick={handleFilter}>
             Apply Filters
