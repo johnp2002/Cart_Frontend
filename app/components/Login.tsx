@@ -8,10 +8,11 @@ interface LoginProps {
 const Login: React.FC<LoginProps> = ({ onLogin }) => {
   const [username, setUsername] = useState<string>('');
   const [password, setPassword] = useState<string>('');
-  const [email, setEmail] = useState<string>('');
+  const [email, setEmail] = useState<string>('enter your email');
   const [tog, setTog] = useState(false);
 
   const handleLogin = async () => {
+    console.log('logn')
     try {
       const response = await fetch('https://jcart-mh9u.onrender.com/signin', {
         method: 'POST',
@@ -105,7 +106,7 @@ const Login: React.FC<LoginProps> = ({ onLogin }) => {
                   className="border bg-transparent text-white  p-2 mb-4 w-full rounded-md"
                   type="text"
                   placeholder="email"
-                  value={'enter Your Email'}
+                  value={email}
                   onChange={(e) => setEmail(e.target.value)}
                 />
                 <input
